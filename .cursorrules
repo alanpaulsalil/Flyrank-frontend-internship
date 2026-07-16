@@ -1,0 +1,26 @@
+# Cursor Rules — Flyrank Frontend Internship Capstone
+
+## Stack
+- Plain HTML, CSS, and JavaScript (no frameworks, no build tools)
+- No package manager dependencies for now — vanilla front-end only
+- Files opened directly in the browser for testing
+
+## File structure
+- index.html at the project root
+- /css folder for stylesheets
+- /js folder for JavaScript files
+- /assets folder for images, icons, fonts, etc.
+
+## Conventions
+- Commit messages follow Conventional Commits format (feat:, fix:, docs:, chore:, style:, refactor:)
+- Use semantic HTML elements (header, nav, main, section, footer) instead of generic <div> where possible
+- CSS class names use kebab-case (e.g. .nav-bar, .hero-section)
+- JavaScript variables and functions use camelCase
+- Keep HTML, CSS, and JS in separate files — no inline styles or inline scripts
+- Indent with 2 spaces
+- Add comments for any non-obvious logic
+
+## AI assistant guidance
+- Prioritize clean, readable, beginner-friendly code over clever one-liners
+- Explain any new concept briefly when introducing it
+- Avoid adding frameworks or build tools unless explicitly asked
