@@ -24,3 +24,14 @@
 - Prioritize clean, readable, beginner-friendly code over clever one-liners
 - Explain any new concept briefly when introducing it
 - Avoid adding frameworks or build tools unless explicitly asked
+
+## Rules learned from AI workflow drill (FE-XX)
+- Forms must include an explicit list of fields and validation rules in the prompt — 
+  otherwise the AI adds unrequested fields (seen in round 1: 6 extra fields added 
+  beyond what was asked)
+- Always instruct the AI to check existing file contents before editing, to avoid 
+  duplicate elements (e.g. duplicate <title> tags in <head>)
+- Any form with validation must include: aria-invalid on invalid fields, 
+  aria-describedby linking input to error text, and focus moved to the first 
+  invalid field on submit — this must be explicitly requested and verified in 
+  DevTools, not assumed
