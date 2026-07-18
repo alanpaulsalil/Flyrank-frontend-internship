@@ -8,8 +8,8 @@ export default function Home() {
         I build complete UVM verification environments.
       </h1>
       <p className="mt-6 max-w-2xl text-lg text-gray-600">
-        From generator, driver, and monitor to scoreboard, coverage, and
-        assertion-based checking — proof, not just a bullet point on a resume.
+          From generator, driver, and monitor to scoreboard, coverage, and
+          assertion-based checking — proof, not just a line on a resume.
       </p>
 
       
