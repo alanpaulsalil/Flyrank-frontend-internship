@@ -1,23 +1,32 @@
 # Flyrank Frontend Internship Capstone
 
-A capstone project for the Flyrank front-end design internship, built with plain HTML, CSS, and JavaScript.
+A verification-engineer portfolio site, built as the capstone project for the Flyrank front-end design internship.
 
 ## Stack
-- HTML5
-- CSS3
-- Vanilla JavaScript
 
-## Project Structure
+- Next.js (App Router) + TypeScript
+- Tailwind CSS
+- Deployed on Vercel with preview deployments on every push
 
-```
-Flyrank-frontend-internship/
-├── index.html      # Main entry point
-├── css/
-│   └── style.css   # Stylesheets
-├── js/
-│   └── script.js   # JavaScript
-└── assets/         # Images, icons, fonts, etc.
-```
+## Pages
+
+- `/` — Home (states the claim)
+- `/work` — Work / Case Study (UVM verification environment, APB-AHB bridge)
+- `/about` — About
+- `/contact` — Contact
+- `/health` — Health-check page (renders fetched data)
 
 ## Getting Started
-Open `index.html` in your browser to view the project.
+
+Install dependencies and run the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Legacy
+
+Earlier plain HTML/CSS/JS drill work (the settings-form prompting exercise) is archived in `/legacy-static` and is not part of the live app.

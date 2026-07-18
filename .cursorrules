@@ -1,15 +1,16 @@
 # Cursor Rules — Flyrank Frontend Internship Capstone
 
 ## Stack
-- Plain HTML, CSS, and JavaScript (no frameworks, no build tools)
-- No package manager dependencies for now — vanilla front-end only
-- Files opened directly in the browser for testing
+- Next.js (App Router) with TypeScript
+- Tailwind CSS for styling
+- Server Components by default; Client Components only where interactivity is needed (forms, buttons with state, etc.)
+- Deployed via Vercel with preview deployments on every push
 
 ## File structure
-- index.html at the project root
-- /css folder for stylesheets
-- /js folder for JavaScript files
-- /assets folder for images, icons, fonts, etc.
+- /app — routes (App Router), each folder = one route (e.g. /app/work/page.tsx)
+- /app/layout.tsx — root layout, shared navigation
+- /public — static assets (images, icons, fonts)
+- Legacy plain HTML/CSS/JS drill work archived in /legacy-static (not part of the live app)
 
 ## Conventions
 - Commit messages follow Conventional Commits format (feat:, fix:, docs:, chore:, style:, refactor:)
