@@ -200,3 +200,124 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+/* Tool lifecycle states */
+.tool-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin: 0.35rem 0;
+}
+
+.tool-status__icon {
+  flex-shrink: 0;
+}
+
+.tool-status--thinking {
+  background: #f3f4f6;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.tool-status--loading {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.tool-status--loading .tool-status__icon {
+  animation: chat-bounce 1s infinite ease-in-out;
+}
+
+.tool-status--error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* Project spec card — real component rendering the tool's output */
+.spec-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.35rem 0;
+  max-width: 420px;
+}
+
+.spec-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.spec-card__badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #111827;
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.spec-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.spec-card__description {
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.spec-card__section {
+  margin-bottom: 0.75rem;
+}
+
+.spec-card__label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  margin-bottom: 0.3rem;
+}
+
+.spec-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.spec-card__tag {
+  font-size: 0.75rem;
+  background: #f3f4f6;
+  color: #111827;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.spec-card__list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+.spec-card__list li {
+  margin-bottom: 0.2rem;
+}
+
+.spec-card__role {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f3f4f6;
+}

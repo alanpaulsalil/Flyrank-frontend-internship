@@ -2,6 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useState, useRef, useEffect } from "react";
+import { ProjectSpecCard } from "./ProjectSpecCard";
 
 export function Chat() {
   const { messages, sendMessage, status, stop } = useChat();
@@ -51,9 +52,54 @@ export function Chat() {
               {message.role === "user" ? "You" : "Assistant"}
             </span>
             <div className="chat-message__text">
-              {message.parts.map((part, i) =>
-                part.type === "text" ? <span key={i}>{part.text}</span> : null
-              )}
+              {message.parts.map((part, i) => {
+                if (part.type === "text") {
+                  return <span key={i}>{part.text}</span>;
+                }
+
+                if (part.type === "tool-getProjectSpec") {
+                  const callId = part.toolCallId;
+
+                  switch (part.state) {
+                    case "input-streaming":
+                      return (
+                        <div key={callId} className="tool-status tool-status--thinking">
+                          <span className="tool-status__icon">⋯</span>
+                          Deciding which project to look up...
+                        </div>
+                      );
+
+                    case "input-available":
+                      return (
+                        <div key={callId} className="tool-status tool-status--loading">
+                          <span className="tool-status__icon">⏳</span>
+                          Looking up &quot;{(part.input as { project: string }).project}&quot;...
+                        </div>
+                      );
+
+                    case "output-available":
+                      return (
+                        <ProjectSpecCard key={callId} spec={part.output as {
+                          title: string;
+                          description: string;
+                          techStack: readonly string[];
+                          highlights: readonly string[];
+                          role: string;
+                        }} />
+                      );
+
+                    case "output-error":
+                      return (
+                        <div key={callId} className="tool-status tool-status--error">
+                          <span className="tool-status__icon">⚠</span>
+                          {part.errorText}
+                        </div>
+                      );
+                  }
+                }
+
+                return null;
+              })}
             </div>
           </div>
         ))}
