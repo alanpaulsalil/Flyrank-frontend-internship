@@ -7,6 +7,10 @@ import {
   type UIMessage,
 } from "ai";
 import { getProjectSpec } from "@/lib/tools";
+import {
+  shouldSimulateRateLimit,
+  shouldSimulateMidStreamError,
+} from "@/lib/chat-test-triggers";
 
 // Keep model config and system prompt here, in one place, per the assignment brief.
 const MODEL = "llama-3.3-70b-versatile";
@@ -27,6 +31,23 @@ honestly rather than making details up.`;
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
+
+  // TEST-ONLY: simulate failure states for the resilience checkpoint.
+  // Gated behind ENABLE_CHAT_TEST_TRIGGERS so these can't fire in normal use.
+  if (shouldSimulateRateLimit(messages)) {
+    return new Response(
+      JSON.stringify({
+        code: "rate_limited",
+        message: "Rate limit exceeded (test trigger).",
+      }),
+      { status: 429, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
+  if (shouldSimulateMidStreamError(messages)) {
+    throw new Error("Simulated mid-stream failure (test trigger).");
+  }
+
   const result = streamText({
     model: groq(MODEL),
     system: SYSTEM_PROMPT,

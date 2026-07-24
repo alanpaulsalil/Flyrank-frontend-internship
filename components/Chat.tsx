@@ -3,10 +3,18 @@
 import { useChat } from "@ai-sdk/react";
 import { useState, useRef, useEffect } from "react";
 import { ProjectSpecCard } from "./ProjectSpecCard";
+import { classifyChatError, getChatErrorCopy } from "@/lib/chat-errors";
+
+const EXAMPLE_QUESTIONS = [
+  "Tell me about your UVM verification environment",
+  "Tell me about your APB-AHB bridge",
+  "What's your background in verification?",
+];
 
 export function Chat() {
-  const { messages, sendMessage, status, stop } = useChat();
+  const { messages, sendMessage, status, stop, error, regenerate } = useChat();
   const [input, setInput] = useState("");
+  const [isRetrying, setIsRetrying] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isPinnedToBottom = useRef(true);
@@ -17,6 +25,14 @@ export function Chat() {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  // Clear the "retrying" lock once the request has actually resolved
+  // (either back to idle/ready, or into a new error state).
+  useEffect(() => {
+    if (status !== "submitted" && status !== "streaming") {
+      setIsRetrying(false);
+    }
+  }, [status]);
 
   function handleScroll() {
     const el = scrollContainerRef.current;
@@ -34,7 +50,20 @@ export function Chat() {
     isPinnedToBottom.current = true;
   }
 
+  function handleExampleClick(question: string) {
+    sendMessage({ text: question });
+    isPinnedToBottom.current = true;
+  }
+
+  function handleRetry() {
+    if (isRetrying) return; // guard against double-click
+    setIsRetrying(true);
+    regenerate();
+  }
+
   const isStreaming = status === "streaming" || status === "submitted";
+  const errorKind = classifyChatError(error);
+  const errorCopy = error ? getChatErrorCopy(errorKind) : null;
 
   return (
     <div className="chat-container">
@@ -43,6 +72,29 @@ export function Chat() {
         onScroll={handleScroll}
         className="chat-messages"
       >
+        {messages.length === 0 && !isStreaming && (
+          <div className="chat-empty-state">
+            <p className="chat-empty-state__title">
+              Ask me about Alan&apos;s verification work
+            </p>
+            <p className="chat-empty-state__subtitle">
+              Try one of these to get started:
+            </p>
+            <div className="chat-empty-state__examples">
+              {EXAMPLE_QUESTIONS.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  className="chat-empty-state__example"
+                  onClick={() => handleExampleClick(q)}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {messages.map((message) => (
           <div
             key={message.id}
@@ -112,6 +164,23 @@ export function Chat() {
               <span className="chat-thinking__dot" />
               <span className="chat-thinking__dot" />
             </div>
+          </div>
+        )}
+
+        {error && errorCopy && (
+          <div className={`chat-error-banner chat-error-banner--${errorKind}`}>
+            <div className="chat-error-banner__text">
+              <strong>{errorCopy.title}</strong>
+              <span>{errorCopy.description}</span>
+            </div>
+            <button
+              type="button"
+              onClick={handleRetry}
+              disabled={isRetrying}
+              className="chat-error-banner__retry"
+            >
+              {isRetrying ? "Retrying..." : "Retry"}
+            </button>
           </div>
         )}
 
